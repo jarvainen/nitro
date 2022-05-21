@@ -57,9 +57,7 @@ const NitroDefaults: NitroConfig = {
   },
 
   // Rollup
-  alias: {
-    '#internal/nitro': runtimeDir
-  },
+  alias: {},
   unenv: {},
   analyze: false,
   moduleSideEffects: ['unenv/runtime/polyfill/', 'node-fetch-native/polyfill'],
@@ -74,7 +72,8 @@ const NitroDefaults: NitroConfig = {
   },
   nodeModulesDirs: [],
   hooks: {},
-  commands: {}
+  commands: {},
+  presets: {}
 }
 
 export async function loadOptions (userConfig: NitroConfig = {}): Promise<NitroOptions> {
@@ -92,7 +91,15 @@ export async function loadOptions (userConfig: NitroConfig = {}): Promise<NitroO
     cwd: userConfig.rootDir,
     resolve (id: string) {
       type PT = Map<String, NitroConfig>
+
       let matchedPreset = (PRESETS as any as PT)[id] || (PRESETS as any as PT)[camelCase(id)]
+      if (userConfig.presets && Object.keys(userConfig.presets).length > 0) {
+        const userPreset = userConfig.presets[id] || userConfig.presets[camelCase(id)]
+        if (userPreset) {
+          matchedPreset = userPreset
+        }
+      }
+
       if (matchedPreset) {
         if (typeof matchedPreset === 'function') {
           matchedPreset = matchedPreset()
@@ -111,6 +118,7 @@ export async function loadOptions (userConfig: NitroConfig = {}): Promise<NitroO
   const options = klona(config) as NitroOptions
   options._config = userConfig
   options.preset = preset
+  options.alias['#internal/nitro'] = runtimeDir
 
   options.rootDir = resolve(options.rootDir || '.')
   options.srcDir = resolve(options.srcDir || options.rootDir)
