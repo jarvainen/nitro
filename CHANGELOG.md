@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.5](https://github.com/jarvainen/nitro/compare/v0.4.4...v0.4.5) (2022-05-21)
+
+
+### Features
+
+* add option to define additional presets ([e6fd3ca](https://github.com/jarvainen/nitro/commit/e6fd3ca23f2f91de5df1767656177d31f2a330a6))
+
+
+### Bug Fixes
+
+* exclude internal `/_*`, `/api/_*` routes from NitroFetchReqeust type ([#232](https://github.com/jarvainen/nitro/issues/232)) ([00aa131](https://github.com/jarvainen/nitro/commit/00aa13161f3c8da451614925daf4cd897a838aa3))
+
 ### [0.4.4](https://github.com/unjs/nitropack/compare/v0.4.3...v0.4.4) (2022-05-11)
 
 
